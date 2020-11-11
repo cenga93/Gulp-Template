@@ -1,0 +1,115 @@
+options:
+  formatter: stylish
+
+# FILES
+files:
+  ignore:
+    - 'scss/fonts/*.scss'
+    - 'scss/sprite/*.scss'
+rules:
+  # Extends
+  extends-before-mixins: 1 # @extend pre @include je dozvoljen
+  extends-before-declarations: 2 # @extend pre scss-a
+
+  # Mixins
+  mixins-before-declarations: # mixin pre bilo kod scss-a u bloku
+    - 2
+    - exclude:
+        - media-query
+
+  # BEM
+  bem-depth:
+    - 2
+    - max-depth: 2
+
+  # Line Spacing
+  one-declaration-per-line: 1 # novi red za svaki property u scss-u
+  empty-line-between-blocks: 2 # prazan red izmedju blokova
+  single-line-per-selector: 1 # vise selektovanih => svaki u novom redu
+
+  # Disallows
+  no-color-keywords: 2 # nije dozvoljeno (red,blue,orange), samo hexadecimal
+  no-color-literals:
+    - 1
+    - allow-rgba: true # rgba je dozvoljen
+  no-css-comments: 1 # css komentar nije dozvoljen => /* ... */
+  no-duplicate-properties: 2 # dupliranje property-a nije dozvoljeno
+  no-empty-rulesets: 1 # prazan blok nije dozvoljen
+  no-extends: 0 # extend je dozvoljen
+  no-ids: 2 # ID selektor nije dozvoljen
+  no-important: 0 # !important je dozvoljen
+  no-invalid-hex: 2 # hex zapis mora biti 3 ili 6 karaktera
+  no-mergeable-selectors: 2 # ponavljanje selektovanog bloka nije dozvoljeno
+  no-misspelled-properties: 2 # greske u kucanju property-a
+  no-qualifying-elements:
+    - 1
+    - allow-element-with-attribute: true # dozvoljeno input[type="email"] selektor
+  no-trailing-zero: 1 # nije dozvoljeno (width: 10.500rem)
+
+  # Nesting
+  force-attribute-nesting: 1
+  force-element-nesting: 1
+  force-pseudo-nesting: 1
+
+  # Indentation
+  indentation: # koliko je child uvucen (tab) od parent selektora
+    - 2
+    - size: 2
+
+  # Name Formats
+  function-name-format: 2 # ime funkcije malim slovima
+  mixin-name-format: # ime mixin-a malim slovima i dozvoljeno ime width-height. nije width_height
+    - 2
+  placeholder-name-format: 1
+  variable-name-format:
+    - 2
+    - allow-leading-underscore: false
+  no-vendor-prefixes:
+    - 1
+    - excluded-identifiers:
+        - webkit
+        - moz
+
+  # Style Guide
+  border-zero: # border:none - nije dozvoljen => border:0 - dozvoljen
+    - 1
+    - convention: zero
+  brace-style: # {} su u istom redu. Nije novi red
+    - 1
+    - allow-single-line: true
+  clean-import-paths: 2 # kod @import nije potreban underscore pre imena (mixin-a, variable)
+  empty-args: 1 # u koliko nema argumenata nije potrebno ()
+  hex-length: 2 # umesto #ffffff treba #fff
+  hex-notation: 2 # dozvoljeno je #fff, nije #FFF
+  leading-zero: # dozvoljeno 0.5px nije .5px
+    - 1
+    - include: true
+  nesting-depth:
+    - 2
+    - max-depth: 2 # maximalna dubina nestovanja
+  property-sort-order:
+    - 1
+    - order: alphabetical # redosled property-a (alphabetical,concentric,recess,smacss)
+  quotes:
+    - 1
+    - style: single # single navodnici
+  zero-unit:
+    - 1
+    - include: false # nije dozvoljeno margin:0px, dozvoljeno je margin:0
+
+  # Inner Spacing
+  space-after-comma:
+    - 1
+    - include: true # dozovljeno rgb(220, 220, 220), nije dozvoljeno rgb(220 220 220)
+  space-before-colon: 1
+  space-after-colon: 1
+  space-before-brace: 1
+  space-before-bang: 1
+  space-after-bang: 1
+  space-between-parens: 1
+
+  # Final Items
+  trailing-semicolon: 1
+  final-newline:
+    - 1
+    - include: true

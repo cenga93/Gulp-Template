@@ -1,0 +1,64 @@
+@font-face {
+    font-family: "svg-icons";
+    src: url('../fonts/svg-icons.eot');
+    src: url('../fonts/svg-icons.eot?#iefix') format('eot'),
+        url('../fonts/svg-icons.woff') format('woff'),
+        url('../fonts/svg-icons.ttf') format('truetype');
+  }
+  
+  @mixin icon-styles {
+    font-family: "svg-icons";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; 
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    // speak: none; // only necessary if not using the private unicode range (firstGlyph option)
+    text-decoration: none;
+    text-transform: none;
+  }
+  
+  %icon {
+    @include icon-styles;
+  }
+  
+  @function icon-char($filename) {
+    $char: "";
+  
+    @if $filename == facebook {
+        $char: "\E001";
+    }
+    @if $filename == instagram {
+        $char: "\E002";
+    }
+    @if $filename == twitter {
+        $char: "\E003";
+    }
+  
+    @return $char;
+  } 
+  
+  @mixin icon($filename, $insert: before, $extend: true) {
+    &:#{$insert} {
+        @if $extend {
+            @extend %icon;
+        } @else {
+            @include icon-styles;
+        }
+        content: icon-char($filename);
+    }
+  }
+  .icon-facebook {
+    @include icon(facebook);
+  }
+  
+  .icon-instagram {
+    @include icon(instagram);
+  }
+  
+  .icon-twitter {
+    @include icon(twitter);
+  }
+  
+  
+  
