@@ -1,20 +1,27 @@
-const { src, dest, series, watch } = require('gulp'),
-  sourcemaps = require('gulp-sourcemaps'),
-  plumber = require('gulp-plumber'),
-  sassLint = require('gulp-sass-lint'),
-  sass = require('gulp-sass'),
-  rename = require('gulp-rename'),
-  browserSync = require('browser-sync').create(),
-  iconfont = require('gulp-iconfont'),
-  iconfontCss = require('gulp-iconfont-css'),
-  svgSprite = require('gulp-svg-sprite');
-// PATHS
+const { src, dest, series, watch } = require('gulp');
+const sourcemaps = require('gulp-sourcemaps');
+const plumber = require('gulp-plumber');
+const sassLint = require('gulp-sass-lint');
+const sass = require('gulp-sass');
+const rename = require('gulp-rename');
+const browserSync = require('browser-sync').create();
+const iconfont = require('gulp-iconfont');
+const iconfontCss = require('gulp-iconfont-css');
+const svgSprite = require('gulp-svg-sprite');
+const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
+const del = require('del');
 
 const paths = {
   style: {
     src: './scss/**/*.scss',
     dest: `./assets/css`,
     watchFiles: './**/*.scss',
+  },
+  js: {
+    src: './js/**/*.js',
+    dest: './assets/js',
+    watchFiles: './js/**/*.js',
   },
   icons: {
     src: 'assets/svg/*.svg',
@@ -52,6 +59,27 @@ const Style = () => {
     )
     .pipe(sourcemaps.write('./'))
     .pipe(dest(paths.style.dest))
+    .pipe(browserSync.stream());
+};
+
+// JAVASCRIPT -> CONVERT WITH BABEL
+const Script = () => {
+  return src(paths.js.src)
+    .pipe(
+      babel({
+        presets: ['@babel/preset-env'],
+      })
+    )
+    .pipe(uglify())
+    .pipe(
+      rename({
+        basename: 'app',
+        suffix: '.min',
+      })
+    )
+
+    .pipe(sourcemaps.write('./'))
+    .pipe(dest(paths.js.dest))
     .pipe(browserSync.stream());
 };
 
@@ -111,6 +139,10 @@ const Sprite = () => {
     .pipe(dest(paths.sprite.dest));
 };
 
+const Clean = () => {
+  return del(['assets/css', 'assets/js', 'assets/fonts', 'assets/sprite', 'scss/fonts', 'scss/sprite'], { force: true });
+};
+
 // WATCHING
 const Watching = () => {
   const root = './';
@@ -119,6 +151,6 @@ const Watching = () => {
   watch(paths.style.watchFiles, Style);
 };
 
-const build = series(SvgFont, Style, Watching);
+const build = series(Clean, Style, Script, SvgFont, Sprite, Watching);
 
 exports.default = build;

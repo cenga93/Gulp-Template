@@ -1,0 +1,43 @@
+@mixin display-style($display, $justify, $align) {
+  align-items: $align;
+  display: $display;
+  justify-content: $justify;
+}
+
+//  MEDIA QUERY
+@mixin media-query($breakpoint) {
+  // DEVICE => Most of the Smartphones Mobiles (Portrait)
+  @if $breakpoint == mobile {
+    @media only screen and (max-width: 480px) {
+      @content;
+    }
+  }
+
+  // DEVICE => Low Resolution Tablets, Mobiles (Landscape)
+  @if $breakpoint == tablet {
+    @media only screen and (min-width: 481px) and (max-width: 767px) {
+      @content;
+    }
+  }
+
+  // DEVICE => Tablets, Ipads (landscape)
+  @if $breakpoint == ltablet {
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+      @content;
+    }
+  }
+
+  // DEVICE => Laptops, Desktops
+  @if $breakpoint == laptop {
+    @media only screen and (min-width: 1025px) and (max-width: 1280px) {
+      @content;
+    }
+  }
+
+  // DEVICE => Desktops
+  @if $breakpoint == desktop {
+    @media only screen and (min-width: 1281px) {
+      @content;
+    }
+  }
+}
